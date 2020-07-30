@@ -61,7 +61,7 @@ function viewDepartments() {
   //! Right now this just shows raw table data
   connection.query("SELECT * FROM departments", (err, data) => {
     if (err) throw err;
-    console.log(data);
+    console.table(data);
     start();
   });
 }
@@ -69,7 +69,7 @@ function viewDepartments() {
 function viewRoles() {
   connection.query("SELECT * FROM roles", (err, data) => {
     if (err) throw err;
-    console.log(data);
+    console.table(data);
     start();
   });
 }
@@ -77,7 +77,7 @@ function viewRoles() {
 function viewEmployees() {
   connection.query("SELECT * FROM employees", (err, data) => {
     if (err) throw err;
-    console.log(data);
+    console.table(data);
     start();
   });
 }
