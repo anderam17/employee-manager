@@ -39,8 +39,14 @@ function start() {
           viewEmployees();
           break;
         case "Add Department":
+          addDepartment();
+          break;
         case "Add Role":
+          addRole();
+          break;
         case "Add Employee":
+          addEmployee();
+          break;
         case "Update Employee Roles":
           console.log("We did it!");
           connection.end();
@@ -53,6 +59,7 @@ function start() {
 }
 
 function viewDepartments() {
+  //! Right now this just shows raw table data
   connection.query("SELECT * FROM departments", (err, data) => {
     if (err) throw err;
     console.log(data);
@@ -75,11 +82,79 @@ function viewEmployees() {
     start();
   });
 }
-//! NEED TO ADD SEED DATA TO TEST THESE
-//! ADD TABLE THING SARAH SENT OUT IN SLACK
+
+function addDepartment(){
+  inquirer.prompt([
+    {
+    name: "department",
+    message: "What is the name of the department you would like to add?"
+  }
+]).then((answer) => {
+  connection.query(`INSERT INTO departments (name) VALUES ('${answer.department}')`, (err) => {
+    if (err) throw err;
+    viewDepartments();
+  })
+})
+}
+
+//!Going to have to ask what department it is and pull that ID + validate that that department exists - actually just give them a list
+function addRole(){
+  inquirer.prompt([
+    {
+    name: "title",
+    message: "What is the title of the role you would like to add?"
+  },
+  {
+    name: "salary",
+    message: "What is the annual salary of this role?"
+  },
+  {
+    name: "department_id",
+    message: "What is the departmental ID of this role?"
+  }
+]).then((answer) => {
+  connection.query(`INSERT INTO roles (title, salary, department_id) VALUES ('${answer.title}', ${answer.salary}, ${answer.department_id})`, (err) => {
+    if (err) throw err;
+    viewRoles();
+  })
+})
+}
+
+function addEmployee(){
+  inquirer.prompt([
+    {
+    name: "first_name",
+    message: "What is the employee's first name?"
+  },
+  {
+    name: "last_name",
+    message: "What is the employee's last name?"
+  },
+  {
+    name: "role_id",
+    message: "What is the role ID for this employee"
+  },
+  {
+    name: "manager_id",
+    message: "What is the manager's ID for this employee?"
+  }
+]).then((answer) => {
+  connection.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('${answer.first_name}', '${answer.last_name}', ${answer.role_id}, ${answer.manager_id})`, (err) => {
+    if (err) throw err;
+    viewRoles();
+  })
+})
+}
+
+function updateEmployeeRole(){
+  
+}
 
 connection.connect((err) => {
   if (err) throw err;
   console.log(`Connected as thread id: ${connection.threadId}`);
   start();
 });
+
+
+//!!! DISCREPENCIES IN REAM ME AND GIF
