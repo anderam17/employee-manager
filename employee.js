@@ -48,8 +48,7 @@ function start() {
           addEmployee();
           break;
         case "Update Employee Roles":
-          console.log("We did it!");
-          connection.end();
+          updateEmployeeRole();
           break;
         default:
           console.log("U suck.");
@@ -141,13 +140,31 @@ function addEmployee(){
 ]).then((answer) => {
   connection.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('${answer.first_name}', '${answer.last_name}', ${answer.role_id}, ${answer.manager_id})`, (err) => {
     if (err) throw err;
-    viewRoles();
+    viewEmployees();
   })
 })
 }
 
 function updateEmployeeRole(){
-  
+  inquirer.prompt([
+    {
+      name: "first_name",
+      message: "What is the first name of the employee you would like to change?"
+    },
+    {
+      name: "last_name",
+      message: "What is the last name of the employee you would like to change?"
+    },
+    {
+      name: "role_id",
+      message: "What would you like to change their role ID to?"
+    }
+  ]).then((answer) => {
+    connection.query(`UPDATE employees SET role_id = ${answer.role_id} WHERE first_name = '${answer.first_name}' && last_name = '${answer.last_name}'`, (err) => {
+      if (err) throw err;
+      viewEmployees();
+  })
+  })
 }
 
 connection.connect((err) => {
@@ -157,4 +174,5 @@ connection.connect((err) => {
 });
 
 
-//!!! DISCREPENCIES IN REAM ME AND GIF
+//!!! DISCREPENCIES IN READ ME AND GIF
+// !!! In readme, it doesnt seem like I need to use joins
