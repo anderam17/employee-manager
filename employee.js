@@ -16,14 +16,15 @@ function start() {
       type: "list",
       message: "What would you like to do?",
       choices: [
+        "View All Departments",
+        "View All Roles",
+        "View All Employees",
         "Add Department",
         "Add Role",
         "Add Employee",
-        "View Departments",
-        "View Roles",
-        "View Employees",
         "Update Employee Roles",
-      ],
+        "Exit"
+      ]
     })
     .then((ans) => {
       console.log(ans);
