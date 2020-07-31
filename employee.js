@@ -51,14 +51,12 @@ function start() {
           updateEmployeeRole();
           break;
         default:
-          console.log("U suck.");
           connection.end();
       }
     });
 }
 
 function viewDepartments() {
-  //! Right now this just shows raw table data
   connection.query("SELECT * FROM departments", (err, data) => {
     if (err) throw err;
     console.table(data);
@@ -96,7 +94,6 @@ function addDepartment(){
 })
 }
 
-//!Going to have to ask what department it is and pull that ID + validate that that department exists - actually just give them a list
 function addRole(){
   inquirer.prompt([
     {
@@ -172,7 +169,3 @@ connection.connect((err) => {
   console.log(`Connected as thread id: ${connection.threadId}`);
   start();
 });
-
-
-//!!! DISCREPENCIES IN READ ME AND GIF
-// !!! In readme, it doesnt seem like I need to use joins
